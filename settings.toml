@@ -1,0 +1,43 @@
+# Reporting context for Visarjan Sentinel.
+# Change these values to point the tool at a new event or an updated verified dataset.
+# Nothing in the ranking rules lives here; those are in visarjan_sentinel/rules.py and ranking.py.
+
+[organisation]
+name = "Bhopal Municipal Corporation"
+short = "BMC"
+name_hi = "भोपाल नगर निगम"
+
+[target_event]
+name = "Durga visarjan"
+name_hi = "दुर्गा विसर्जन"
+date = 2026-10-20
+
+[dataset]
+readings_csv = "data/bhopal_ghats_2023_2025.csv"
+cpcb_csv = "data/cpcb_water_quality_criteria.csv"
+source_label = "MPPCB idol-immersion water-quality reports"
+source_label_hi = "मध्य प्रदेश प्रदूषण नियंत्रण बोर्ड (MPPCB) की मूर्ति विसर्जन जल-गुणवत्ता रिपोर्टें"
+
+# One entry per report year. The readings CSV cites these by year and PDF page.
+# To add a future verified dataset: parse the new report with tools/parse_visarjan.py from the
+# hackathon repo, append its rows to the readings CSV, and add the report here.
+[[reports]]
+year = 2023
+file_name = "Idol_immer._Report_23_CPCB.pdf"
+title = "MPPCB Idol Immersion Report 2023 (CPCB format)"
+pages = 87
+url = "https://www.mppcb.mp.gov.in/proc/mon/Idol_immer._Report_23_CPCB.pdf"
+
+[[reports]]
+year = 2024
+file_name = "Ganesh_and_Durga_visarjan_report-2024.pdf"
+title = "MPPCB Ganesh and Durga Visarjan Report 2024"
+pages = 118
+url = "https://www.mppcb.mp.gov.in/proc/mon/Ganesh_and_Durga_visarjan_report-2024.pdf"
+
+[[reports]]
+year = 2025
+file_name = "Ganesh_and_Durga_visarjan_report-2025.pdf"
+title = "MPPCB Ganesh and Durga Visarjan Report 2025"
+pages = 92
+url = "https://www.mppcb.mp.gov.in/proc/mon/Ganesh_and_Durga_visarjan_report-2025.pdf"

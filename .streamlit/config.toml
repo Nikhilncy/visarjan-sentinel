@@ -1,0 +1,32 @@
+[theme]
+base = "light"
+primaryColor = "#2563EB"
+backgroundColor = "#F5F7FA"
+secondaryBackgroundColor = "#FFFFFF"
+textColor = "#172B4D"
+linkColor = "#2563EB"
+font = "Inter, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif"
+headingFont = "Inter, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif"
+baseRadius = "6px"
+borderColor = "#E2E8F0"
+dataframeBorderColor = "#E2E8F0"
+dataframeHeaderBackgroundColor = "#F8FAFC"
+showWidgetBorder = true
+redColor = "#B42318"
+redBackgroundColor = "#FEF3F2"
+orangeColor = "#B54708"
+orangeBackgroundColor = "#FFFAEB"
+yellowColor = "#B54708"
+yellowBackgroundColor = "#FFFAEB"
+blueColor = "#1D4ED8"
+blueBackgroundColor = "#EFF6FF"
+greenColor = "#067647"
+greenBackgroundColor = "#ECFDF3"
+grayColor = "#64748B"
+grayBackgroundColor = "#F1F5F9"
+
+[browser]
+gatherUsageStats = false
+
+[server]
+headless = true

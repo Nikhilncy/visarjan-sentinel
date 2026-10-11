@@ -45,13 +45,14 @@ def top_menu(pages: list) -> None:
                                  width="stretch", help=page.title)
 
 
-def sidebar_menu(pages: list, status_html: str) -> None:
-    """Vertical menu in the navy sidebar; the active item is highlighted by active_css()."""
-    with st.sidebar:
-        with st.container(key="sidenav"):
-            for page in pages:
-                with st.container(key=f"nav_{page_slug(page)}"):
-                    st.page_link(page, label=page.title, icon=page.icon, width="stretch")
+def left_rail(pages: list, status_html: str, brand_svg: str) -> None:
+    """Vertical navy menu built into the page layout (not the Streamlit sidebar), so it is always visible.
+    The active item is highlighted by active_css(); the rail slides in when arriving from the landing page."""
+    with st.container(key="leftnav"):
+        st.markdown(f'<div class="vs-rail-brand">{brand_svg}</div>', unsafe_allow_html=True)
+        for page in pages:
+            with st.container(key=f"nav_{page_slug(page)}"):
+                st.page_link(page, label=page.title, icon=page.icon, width="stretch")
         st.markdown('<div class="vs-side-divider"></div>', unsafe_allow_html=True)
         st.markdown(f'<div class="vs-side-note">{status_html}</div>', unsafe_allow_html=True)
 
@@ -65,7 +66,7 @@ def page_bar(home, pages: list, current) -> None:
     back_slug = previous_slug()
 
     with st.container(key="pagebar"):
-        c_back, c_crumb, c_prev, c_next = st.columns([1.1, 4, 1.6, 1.6], vertical_alignment="center")
+        c_back, c_crumb, c_prev, c_next = st.columns([1.4, 3.6, 1.6, 1.6], vertical_alignment="center")
         with c_back:
             if st.button("Back", icon=":material/arrow_back:", key="btn_back", width="stretch",
                          help="Return to the page you came from"):
@@ -104,8 +105,11 @@ def active_css(current_slug: str, on_home: bool) -> str:
     if on_home:
         css += """
 <style>
-[data-testid="stSidebar"], [data-testid="stSidebarCollapsedControl"], [data-testid="stSidebarCollapseButton"],
-[data-testid="stLogo"], [data-testid="stHeaderLogo"] { display: none !important; }
 .block-container { max-width: 1120px; padding-top: 2rem; }
+</style>"""
+    else:
+        css += """
+<style>
+.block-container { max-width: 1400px; padding-top: 1.25rem; }
 </style>"""
     return css

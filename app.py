@@ -13,7 +13,7 @@ from visarjan_sentinel.ui import data, nav, state
 from visarjan_sentinel.ui import theme as T
 
 st.set_page_config(page_title=f"{T.PRODUCT} · {T.DESCRIPTOR}", page_icon="assets/mark.svg", layout="wide",
-                   initial_sidebar_state="auto")
+                   initial_sidebar_state="collapsed")
 T.inject_css()
 
 try:
@@ -43,14 +43,18 @@ st.markdown(nav.active_css(nav.page_slug(current), on_home), unsafe_allow_html=T
 nav.record_visit(nav.page_slug(current))
 if on_home:
     nav.top_menu(pages)
+    current.run()
 else:
-    T.sidebar_brand()
     site = state.selected_site(m)
-    nav.sidebar_menu(
-        [home] + pages,
-        f"<strong>Selected ghat</strong><br>{m.rank_of[site]} · {site}<br><br>"
-        f"<strong>Evidence</strong><br>MPPCB immersion reports, {m.period}. Historical readings; they do not establish "
-        "current water conditions.",
-    )
-    nav.page_bar(home, pages, current)
-current.run()
+    rail, content = st.columns([1, 4.4], gap="large")
+    with rail:
+        nav.left_rail(
+            [home] + pages,
+            f"<strong>Selected ghat</strong><br>{m.rank_of[site]} · {site}<br><br>"
+            f"<strong>Evidence</strong><br>MPPCB immersion reports, {m.period}. Historical readings; they do not establish "
+            "current water conditions.",
+            T.BRAND_SVG,
+        )
+    with content:
+        nav.page_bar(home, pages, current)
+        current.run()

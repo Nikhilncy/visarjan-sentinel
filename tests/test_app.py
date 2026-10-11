@@ -33,21 +33,24 @@ def test_every_page_runs(at):
         assert not at.exception, (page, [e.value for e in at.exception])
 
 
-def test_landing_page_has_horizontal_menu_and_no_sidebar(at):
+def test_landing_page_has_horizontal_menu_and_no_rail(at):
     text = _text(at)
     assert "Visarjan Sentinel" in text and "Water Quality Intelligence" in text and "vs-waves" in text
     labels = [l.label for l in at.main.get("page_link")]
     assert labels[:5] == ["Overview", "Priorities", "Analysis", "Evidence", "Brief"]
-    assert len(at.sidebar.get("page_link")) == 0
+    assert '<div class="vs-rail-brand">' not in text  # no rail on the landing page (CSS may mention the class)
     assert "148 of 343" in text and "2023 to 2025" in text
     assert not at.dataframe and not at.get("vega_lite_chart")  # a clean landing page, no data tables or charts
 
 
-def test_inner_pages_show_vertical_menu_with_home(at):
+def test_inner_pages_show_left_vertical_menu_with_home(at):
     at.switch_page("views/priorities.py").run()
-    labels = [l.label for l in at.sidebar.get("page_link")]
-    assert labels == ["Home", "Overview", "Ghat Priorities", "Historical Analysis", "Evidence & Data Gaps", "Officer Brief"]
-    assert ".st-key-nav_priorities [data-testid=\"stPageLink\"] a { background" in _text(at)
+    text = _text(at)
+    assert '<div class="vs-rail-brand">' in text  # the rail is part of the page, not the (hidden) Streamlit sidebar
+    labels = [l.label for l in at.main.get("page_link")]
+    assert labels[:6] == ["Home", "Overview", "Ghat Priorities", "Historical Analysis", "Evidence & Data Gaps", "Officer Brief"]
+    assert ".st-key-nav_priorities [data-testid=\"stPageLink\"] a { background" in text
+    assert "Selected ghat" in text
 
 
 def test_page_bar_back_breadcrumb_and_steps(at):
@@ -57,20 +60,20 @@ def test_page_bar_back_breadcrumb_and_steps(at):
     text = _text(at)
     assert 'class="vs-crumb"' in text and "Ghat Priorities" in text and "Step 2 of 5" in text
     labels = [l.label for l in at.main.get("page_link")]
-    assert labels[:2] == ["Overview", "Analysis"]  # previous and next steps
+    assert labels[6:8] == ["Overview", "Analysis"]  # after the six rail links: previous and next steps
     assert at.button(key="btn_back").label == "Back"
     at.switch_page("views/brief.py").run()
     labels = [l.label for l in at.main.get("page_link")]
-    assert labels[:2] == ["Evidence", "Home"]  # last step offers Home instead of Next
+    assert labels[6:8] == ["Evidence", "Home"]  # last step offers Home instead of Next
 
 
 def test_permanent_header_has_no_event_date_or_countdown(at):
     at.switch_page("views/overview.py").run()
-    side = _side(at)
-    assert "Selected ghat" in side and "Evidence" in side  # status area under the navigation
-    assert "20 October 2026" not in side and "days to go" not in side
-    # the header does not mention the event year at all; the data period is there instead
-    assert "2026" not in side and "2023 to 2025" in side
+    text = _text(at)
+    rail = text[text.index('<div class="vs-rail-brand">'):text.index('class="vs-crumb"')]
+    assert "Selected ghat" in rail and "Evidence" in rail  # status area under the navigation
+    assert "20 October 2026" not in rail and "days to go" not in rail
+    assert "2026" not in rail and "2023 to 2025" in rail
 
 
 def test_overview_landing_screen(at):
@@ -96,7 +99,9 @@ def test_overview_landing_screen(at):
 
 def test_notice_is_not_sticky(at):
     at.switch_page("views/overview.py").run()
-    assert "position: sticky" not in _text(at)
+    text = _text(at)
+    assert ":has(.vs-notice)" not in text and ".vs-notice { position: sticky" not in text
+    assert ".vs-indicator { position: sticky" not in text
 
 
 def test_priorities_order_matches_ranking(at):
@@ -135,7 +140,7 @@ def test_selection_persists_across_pages(at):
     assert at.selectbox[0].value == "Shahpura lake ghat"
     at.switch_page("views/evidence.py").run()
     assert at.multiselect[0].value == ["Shahpura lake ghat"]
-    assert "Shahpura lake ghat" in _side(at)
+    assert "Selected ghat</strong><br>5 · Shahpura lake ghat" in _text(at)
 
 
 def test_analysis_parameters_filters_and_benchmarks(at):

@@ -28,6 +28,16 @@ CAT_MISS = "Missing: not sampled or no table"
 CAT_ORDER = [CAT_CRIT, CAT_OUT, CAT_IN, CAT_MISS]
 CAT_COLOR = {CAT_CRIT: RED, CAT_OUT: AMBER, CAT_IN: TEAL, CAT_MISS: GREY}
 
+BRAND_SVG = (
+    '<svg width="212" height="40" viewBox="0 0 236 40" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">'
+    '<rect x="0.5" y="3.5" width="33" height="33" rx="7" fill="#FFFFFF" fill-opacity="0.12" stroke="#FFFFFF" stroke-opacity="0.35"/>'
+    '<path d="M17 10.5c-3.6 4.9-6.2 8.4-6.2 11.6a6.2 6.2 0 0 0 12.4 0c0-3.2-2.6-6.7-6.2-11.6z" fill="#FFFFFF" fill-opacity="0.95"/>'
+    '<path d="M8 28.5c2.2-1.6 4.4-1.6 6.6 0 2.2 1.6 4.4 1.6 6.6 0 2.2-1.6 4.4-1.6 6.6 0" stroke="#93C5FD" stroke-width="1.6" stroke-linecap="round" fill="none"/>'
+    '<text x="44" y="19" font-family="Inter, -apple-system, Segoe UI, Roboto, sans-serif" font-size="13" font-weight="700" letter-spacing="2" fill="#FFFFFF">VISARJAN SENTINEL</text>'
+    '<text x="44" y="34" font-family="Inter, -apple-system, Segoe UI, Roboto, sans-serif" font-size="11.5" fill="#BFD3EE">Water Quality Intelligence</text>'
+    "</svg>"
+)
+
 MARK_SVG = (
     '<svg width="30" height="30" viewBox="0 0 34 34" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">'
     f'<rect x="0.5" y="0.5" width="33" height="33" rx="7" fill="{NAVY}"/>'
@@ -41,7 +51,8 @@ CSS = f"""
 .block-container {{ padding-top: 1.5rem; padding-bottom: 3rem; max-width: 1120px; }}
 [data-testid="stToolbar"], .stAppDeployButton, #MainMenu {{ display: none; }}
 header[data-testid="stHeader"] {{ background: transparent; height: 2.5rem; }}
-[data-testid="stSidebar"] {{ background: {NAVY}; }}
+[data-testid="stSidebar"], [data-testid="stSidebarCollapsedControl"], [data-testid="stSidebarCollapseButton"],
+[data-testid="stLogo"], [data-testid="stHeaderLogo"] {{ display: none !important; }}
 [data-testid="stSidebar"] * {{ color: #E6EEF8; }}
 [data-testid="stSidebar"] a[data-testid="stSidebarNavLink"] {{ border-radius: 6px; }}
 [data-testid="stSidebar"] a[data-testid="stSidebarNavLink"]:hover {{ background: rgba(255,255,255,0.08); }}
@@ -143,15 +154,38 @@ header[data-testid="stHeader"] {{ background: transparent; height: 2.5rem; }}
 .st-key-topnav [data-testid="stPageLink"] a:hover {{ background: {SURFACE}; }}
 .st-key-topnav [data-testid="stPageLink"] a span, .st-key-topnav [data-testid="stPageLink"] a p {{ color: {NAVY}; font-weight: 600; font-size: 0.875rem; white-space: nowrap; }}
 .st-key-topnav [data-testid="stPageLink"] a [data-testid="stIconMaterial"] {{ color: {BLUE}; }}
-.st-key-sidenav [data-testid="stPageLink"] a {{ padding: 8px 12px; border-radius: 6px; margin-bottom: 2px; }}
-.st-key-sidenav [data-testid="stPageLink"] a:hover {{ background: rgba(255,255,255,0.08); }}
-.st-key-sidenav [data-testid="stPageLink"] a span, .st-key-sidenav [data-testid="stPageLink"] a p {{ color: #DCE7F5; font-weight: 500; font-size: 0.95rem; }}
-.st-key-sidenav [data-testid="stPageLink"] a [data-testid="stIconMaterial"] {{ color: #BFD3EE; }}
-[data-testid="stSidebar"] .vs-side-divider {{ border-top: 1px solid rgba(255,255,255,0.14); margin: 12px 0 14px 0; }}
-[data-testid="stSidebar"] [data-testid="stSidebarUserContent"] {{ padding-top: 8px; }}
+/* ---- left rail (inner pages): always visible, independent of the Streamlit sidebar ---- */
+@keyframes vs-rail-in {{ from {{ opacity: 0; transform: translateX(-18px); }} to {{ opacity: 1; transform: none; }} }}
+@keyframes vs-fade-in {{ from {{ opacity: 0; transform: translateY(6px); }} to {{ opacity: 1; transform: none; }} }}
+[data-testid="stColumn"]:has(.st-key-leftnav) {{ flex: 0 0 236px !important; min-width: 236px !important; width: 236px !important; }}
+[data-testid="stColumn"]:has(.st-key-pagebar) {{ flex: 1 1 0 !important; min-width: 0 !important; width: auto !important; }}
+[data-testid="stHorizontalBlock"]:has(> [data-testid="stColumn"] .st-key-leftnav) {{ flex-wrap: nowrap; }}
+.st-key-leftnav {{ background: {NAVY}; border-radius: 10px; padding: 16px 12px 24px 12px; min-height: calc(100vh - 3.5rem);
+   position: sticky; top: 1rem; animation: vs-rail-in 0.35s ease-out; overflow: visible; }}
+.st-key-leftnav .vs-rail-brand {{ padding: 2px 4px 14px 4px; border-bottom: 1px solid rgba(255,255,255,0.14); margin-bottom: 10px; }}
+.st-key-leftnav .vs-rail-brand svg {{ display: block; max-width: 100%; height: auto; }}
+.st-key-leftnav [data-testid="stPageLink"] a {{ padding: 9px 12px; border-radius: 6px; margin-bottom: 2px; transition: background 0.15s ease; }}
+.st-key-leftnav [data-testid="stPageLink"] a:hover {{ background: rgba(255,255,255,0.08); }}
+.st-key-leftnav [data-testid="stPageLink"] a span, .st-key-leftnav [data-testid="stPageLink"] a p {{ color: #DCE7F5; font-weight: 500; font-size: 0.95rem; }}
+.st-key-leftnav [data-testid="stPageLink"] a [data-testid="stIconMaterial"] {{ color: #BFD3EE; }}
+.st-key-leftnav .vs-side-divider {{ border-top: 1px solid rgba(255,255,255,0.14); margin: 12px 0 14px 0; }}
+.st-key-leftnav .vs-side-note {{ font-size: 0.75rem; color: #BFD3EE; line-height: 1.5; padding: 0 4px; }}
+.st-key-leftnav .vs-side-note strong {{ color: #FFFFFF; }}
+.st-key-pagebar, .st-key-topnav {{ animation: vs-fade-in 0.3s ease-out; }}
+@media (max-width: 900px) {{
+  [data-testid="stColumn"]:has(.st-key-leftnav), [data-testid="stColumn"]:has(.st-key-pagebar) {{ flex: 1 1 100% !important; min-width: 0 !important; width: 100% !important; }}
+  [data-testid="stHorizontalBlock"]:has(> [data-testid="stColumn"] .st-key-leftnav) {{ flex-wrap: wrap; }}
+  .st-key-leftnav {{ min-height: 0; position: static; padding: 12px 12px 16px 12px; animation: vs-fade-in 0.3s ease-out; }}
+  .st-key-leftnav > div[data-testid="stVerticalBlock"] {{ flex-direction: row; flex-wrap: wrap; align-items: center; gap: 4px 6px; }}
+  .st-key-leftnav .vs-rail-brand {{ border-bottom: none; padding: 0 8px 0 0; margin: 0; }}
+  .st-key-leftnav .vs-rail-brand svg {{ width: 170px; }}
+  .st-key-leftnav [data-testid="stPageLink"] a {{ padding: 6px 10px; margin: 0; }}
+  .st-key-leftnav .vs-side-divider, .st-key-leftnav .vs-side-note {{ display: none; }}
+}}
 /* ---- page bar (inner pages) ---- */
 .st-key-pagebar {{ background: {SURFACE}; border: 1px solid {BORDER}; border-radius: 8px; padding: 6px 10px; margin-bottom: 20px; }}
-.st-key-pagebar [data-testid="stButton"] button {{ min-height: 2.25rem; border-color: {BORDER}; color: {NAVY}; font-weight: 500; }}
+.st-key-pagebar [data-testid="stButton"] button {{ min-height: 2.25rem; border-color: {BORDER}; color: {NAVY}; font-weight: 500; padding-left: 8px; padding-right: 8px; }}
+.st-key-pagebar [data-testid="stButton"] button p {{ white-space: nowrap; }}
 .st-key-pagebar [data-testid="stPageLink"] a {{ justify-content: center; border: 1px solid {BORDER}; border-radius: 6px; min-height: 2.25rem; padding: 4px 10px; }}
 .st-key-pagebar [data-testid="stPageLink"] a:hover {{ background: {SELECT_BG}; border-color: #BFDBFE; }}
 .st-key-pagebar [data-testid="stPageLink"] a span, .st-key-pagebar [data-testid="stPageLink"] a p {{ color: {NAVY}; font-weight: 500; font-size: 0.875rem; white-space: nowrap; }}
@@ -160,10 +194,7 @@ header[data-testid="stHeader"] {{ background: transparent; height: 2.5rem; }}
 [data-testid="stMarkdownContainer"] .vs-crumb a {{ color: {BLUE}; text-decoration: none; font-weight: 500; }}
 [data-testid="stMarkdownContainer"] .vs-crumb .cur {{ color: {NAVY}; font-weight: 600; }}
 [data-testid="stMarkdownContainer"] .vs-crumb .step {{ margin-left: auto; font-size: 0.75rem; color: {MUTED}; border: 1px solid {BORDER}; border-radius: 999px; padding: 1px 8px; }}
-/* keep the sidebar expander visible and noticeable when the sidebar is collapsed */
-[data-testid="stSidebarCollapsedControl"] {{ display: flex !important; background: {NAVY}; color: #FFFFFF; border-radius: 6px; padding: 2px 6px; margin: 6px 0 0 6px; }}
-[data-testid="stSidebarCollapsedControl"] * {{ color: #FFFFFF; }}
-header[data-testid="stHeader"] {{ height: 2.75rem; }}
+header[data-testid="stHeader"] {{ height: 1.5rem; }}
 /* ---- landing hero ---- */
 [data-testid="stMarkdownContainer"] .vs-hero {{ position: relative; overflow: hidden; background: {SURFACE}; border: 1px solid {BORDER};
    border-radius: 12px; padding: 40px 40px 72px 40px; margin-bottom: 16px; }}

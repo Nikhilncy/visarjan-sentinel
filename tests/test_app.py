@@ -37,7 +37,7 @@ def test_landing_page_has_horizontal_menu_and_no_rail(at):
     text = _text(at)
     assert "Visarjan Sentinel" in text and "Water Quality Intelligence" in text and "vs-waves" in text
     labels = [l.label for l in at.main.get("page_link")]
-    assert labels[:5] == ["Overview", "Priorities", "Analysis", "Evidence", "Brief"]
+    assert labels[:3] == ["Overview", "Ghat Priorities", "Officer Brief"]  # only the primary destinations
     assert '<div class="vs-rail-brand">' not in text  # no rail on the landing page (CSS may mention the class)
     assert "148 of 343" in text and "2023 to 2025" in text
     assert not at.dataframe and not at.get("vega_lite_chart")  # a clean landing page, no data tables or charts

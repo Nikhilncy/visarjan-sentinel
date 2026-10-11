@@ -148,7 +148,7 @@ header[data-testid="stHeader"] {{ background: transparent; height: 2.5rem; }}
 .st-key-brief_preview p, .st-key-brief_preview li, .st-key-brief_preview td, .st-key-brief_preview th {{ font-size: 0.875rem; }}
 [data-testid="stAlert"] p {{ font-size: 0.875rem; }}
 /* ---- navigation shell ---- */
-.st-key-topnav {{ max-width: 760px; margin: 0 auto 40px auto; background: rgba(37,99,235,0.08); border: 1px solid #D6E2F5;
+.st-key-topnav {{ max-width: 620px; margin: 0 auto 40px auto; background: rgba(37,99,235,0.08); border: 1px solid #D6E2F5;
    border-radius: 999px; padding: 6px 8px; }}
 .st-key-topnav [data-testid="stPageLink"] a {{ justify-content: center; border-radius: 999px; padding: 8px 10px; }}
 .st-key-topnav [data-testid="stPageLink"] a:hover {{ background: {SURFACE}; }}
@@ -160,8 +160,9 @@ header[data-testid="stHeader"] {{ background: transparent; height: 2.5rem; }}
 [data-testid="stColumn"]:has(.st-key-leftnav) {{ flex: 0 0 236px !important; min-width: 236px !important; width: 236px !important; }}
 [data-testid="stColumn"]:has(.st-key-pagebar) {{ flex: 1 1 0 !important; min-width: 0 !important; width: auto !important; }}
 [data-testid="stHorizontalBlock"]:has(> [data-testid="stColumn"] .st-key-leftnav) {{ flex-wrap: nowrap; }}
-.st-key-leftnav {{ background: {NAVY}; border-radius: 10px; padding: 16px 12px 24px 12px; min-height: calc(100vh - 3.5rem);
-   position: sticky; top: 1rem; animation: vs-rail-in 0.35s ease-out; overflow: visible; }}
+.st-key-leftnav {{ background: {NAVY}; border-radius: 10px; padding: 16px 12px 24px 12px; width: 236px;
+   position: fixed; top: 3.25rem; left: calc(max(0px, (100vw - 1400px) / 2) + 5rem); height: calc(100vh - 4.5rem);
+   overflow-y: auto; animation: vs-rail-in 0.35s ease-out; z-index: 20; }}
 .st-key-leftnav .vs-rail-brand {{ padding: 2px 4px 14px 4px; border-bottom: 1px solid rgba(255,255,255,0.14); margin-bottom: 10px; }}
 .st-key-leftnav .vs-rail-brand svg {{ display: block; max-width: 100%; height: auto; }}
 .st-key-leftnav [data-testid="stPageLink"] a {{ padding: 9px 12px; border-radius: 6px; margin-bottom: 2px; transition: background 0.15s ease; }}
@@ -175,7 +176,7 @@ header[data-testid="stHeader"] {{ background: transparent; height: 2.5rem; }}
 @media (max-width: 900px) {{
   [data-testid="stColumn"]:has(.st-key-leftnav), [data-testid="stColumn"]:has(.st-key-pagebar) {{ flex: 1 1 100% !important; min-width: 0 !important; width: 100% !important; }}
   [data-testid="stHorizontalBlock"]:has(> [data-testid="stColumn"] .st-key-leftnav) {{ flex-wrap: wrap; }}
-  .st-key-leftnav {{ min-height: 0; position: static; padding: 12px 12px 16px 12px; animation: vs-fade-in 0.3s ease-out; }}
+  .st-key-leftnav {{ min-height: 0; height: auto; width: auto; position: static; padding: 12px 12px 16px 12px; animation: vs-fade-in 0.3s ease-out; }}
   .st-key-leftnav > div[data-testid="stVerticalBlock"] {{ flex-direction: row; flex-wrap: wrap; align-items: center; gap: 4px 6px; }}
   .st-key-leftnav .vs-rail-brand {{ border-bottom: none; padding: 0 8px 0 0; margin: 0; }}
   .st-key-leftnav .vs-rail-brand svg {{ width: 170px; }}
@@ -190,7 +191,7 @@ header[data-testid="stHeader"] {{ background: transparent; height: 2.5rem; }}
 .st-key-pagebar [data-testid="stPageLink"] a:hover {{ background: {SELECT_BG}; border-color: #BFDBFE; }}
 .st-key-pagebar [data-testid="stPageLink"] a span, .st-key-pagebar [data-testid="stPageLink"] a p {{ color: {NAVY}; font-weight: 500; font-size: 0.875rem; white-space: nowrap; }}
 .st-key-pagebar [data-testid="stPageLink"] a [data-testid="stIconMaterial"] {{ color: {BLUE}; }}
-[data-testid="stMarkdownContainer"] .vs-crumb {{ font-size: 0.875rem; color: {MUTED}; display: flex; align-items: center; gap: 8px; min-height: 2.25rem; }}
+[data-testid="stMarkdownContainer"] .vs-crumb {{ font-size: 0.875rem; color: {MUTED}; display: flex; align-items: center; gap: 8px; height: 20px; line-height: 20px; margin-top: -8px; }}
 [data-testid="stMarkdownContainer"] .vs-crumb a {{ color: {BLUE}; text-decoration: none; font-weight: 500; }}
 [data-testid="stMarkdownContainer"] .vs-crumb .cur {{ color: {NAVY}; font-weight: 600; }}
 [data-testid="stMarkdownContainer"] .vs-crumb .step {{ margin-left: auto; font-size: 0.75rem; color: {MUTED}; border: 1px solid {BORDER}; border-radius: 999px; padding: 1px 8px; }}
@@ -205,7 +206,8 @@ header[data-testid="stHeader"] {{ height: 1.5rem; }}
 [data-testid="stMarkdownContainer"] .vs-hero .eyebrow .mark svg {{ width: 28px; height: 28px; display: block; }}
 [data-testid="stMarkdownContainer"] .vs-hero h1.title {{ font-size: 2.4rem; font-weight: 700; letter-spacing: -0.02em; color: {NAVY}; margin: 0 0 12px 0; padding: 0; }}
 [data-testid="stMarkdownContainer"] .vs-hero p.sub {{ font-size: 1.05rem; line-height: 1.6; color: {TEXT}; margin: 0 0 20px 0; }}
-[data-testid="stMarkdownContainer"] .vs-hero .facts {{ display: flex; flex-wrap: wrap; gap: 8px 24px; font-size: 0.875rem; color: {MUTED}; }}
+[data-testid="stMarkdownContainer"] .vs-hero .facts {{ display: grid; grid-template-columns: repeat(auto-fit, minmax(170px, 1fr)); gap: 8px 16px;
+   font-size: 0.875rem; color: {MUTED}; max-width: 900px; }}
 [data-testid="stMarkdownContainer"] .vs-hero .facts strong {{ color: {NAVY}; font-variant-numeric: tabular-nums; }}
 [data-testid="stMarkdownContainer"] .vs-tile {{ background: {SURFACE}; border: 1px solid {BORDER}; border-radius: 8px; padding: 16px; min-height: 256px; }}
 [data-testid="stMarkdownContainer"] .vs-tile .ic {{ margin-bottom: 8px; }}

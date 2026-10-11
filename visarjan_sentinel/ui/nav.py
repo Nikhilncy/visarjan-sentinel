@@ -34,15 +34,18 @@ def previous_slug() -> str | None:
     return hist[-2] if len(hist) >= 2 else None
 
 
+TOP_MENU_SLUGS = ("overview", "priorities", "brief")  # the landing menu shows only the primary destinations
+
+
 def top_menu(pages: list) -> None:
-    """Horizontal, centred, tinted menu for the landing page."""
+    """Horizontal, centred, tinted menu for the landing page: the three primary destinations."""
+    shown = [p for p in pages if page_slug(p) in TOP_MENU_SLUGS]
     with st.container(key="topnav"):
-        cols = st.columns(len(pages), gap="small")
-        for col, page in zip(cols, pages):
+        cols = st.columns(len(shown), gap="small")
+        for col, page in zip(cols, shown):
             with col:
                 with st.container(key=f"top_{page_slug(page)}"):
-                    st.page_link(page, label=SHORT_LABELS.get(page.title, page.title), icon=page.icon,
-                                 width="stretch", help=page.title)
+                    st.page_link(page, label=page.title, icon=page.icon, width="stretch", help=page.title)
 
 
 def left_rail(pages: list, status_html: str, brand_svg: str) -> None:

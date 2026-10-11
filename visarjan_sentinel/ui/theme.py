@@ -50,7 +50,7 @@ CSS = f"""
 <style>
 .block-container {{ padding-top: 1.5rem; padding-bottom: 3rem; max-width: 1120px; }}
 [data-testid="stToolbar"], .stAppDeployButton, #MainMenu {{ display: none; }}
-header[data-testid="stHeader"] {{ background: transparent; height: 2.5rem; }}
+header[data-testid="stHeader"] {{ background: transparent; height: 1.5rem; pointer-events: none; }}
 [data-testid="stSidebar"], [data-testid="stSidebarCollapsedControl"], [data-testid="stSidebarCollapseButton"],
 [data-testid="stLogo"], [data-testid="stHeaderLogo"] {{ display: none !important; }}
 [data-testid="stSidebar"] * {{ color: #E6EEF8; }}
@@ -199,7 +199,8 @@ header[data-testid="stHeader"] {{ background: transparent; height: 2.5rem; }}
 [data-testid="stMarkdownContainer"] .vs-crumb a {{ color: {BLUE}; text-decoration: none; font-weight: 500; }}
 [data-testid="stMarkdownContainer"] .vs-crumb .cur {{ color: {NAVY}; font-weight: 600; }}
 [data-testid="stMarkdownContainer"] .vs-crumb .step {{ margin-left: auto; font-size: 0.75rem; color: {MUTED}; border: 1px solid {BORDER}; border-radius: 999px; padding: 1px 8px; }}
-header[data-testid="stHeader"] {{ height: 1.5rem; }}
+header[data-testid="stHeader"] {{ height: 1.5rem; pointer-events: none; }}
+header[data-testid="stHeader"] * {{ pointer-events: none; }}
 /* ---- landing hero ---- */
 [data-testid="stMarkdownContainer"] .vs-hero {{ position: relative; overflow: hidden; background: {SURFACE}; border: 1px solid {BORDER};
    border-radius: 12px; padding: 40px 40px 72px 40px; margin-bottom: 16px; }}

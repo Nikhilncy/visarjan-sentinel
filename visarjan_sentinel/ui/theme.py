@@ -148,8 +148,10 @@ header[data-testid="stHeader"] {{ background: transparent; height: 2.5rem; }}
 .st-key-brief_preview p, .st-key-brief_preview li, .st-key-brief_preview td, .st-key-brief_preview th {{ font-size: 0.875rem; }}
 [data-testid="stAlert"] p {{ font-size: 0.875rem; }}
 /* ---- navigation shell ---- */
-.st-key-topnav {{ max-width: 620px; margin: 0 auto 40px auto; background: rgba(37,99,235,0.08); border: 1px solid #D6E2F5;
-   border-radius: 999px; padding: 6px 8px; }}
+.st-key-topnav {{ position: fixed; top: 14px; left: 50%; margin-left: -310px; width: 620px; z-index: 40;
+   background: rgba(239,246,255,0.86); backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px);
+   border: 1px solid #D6E2F5; border-radius: 999px; padding: 6px 8px; box-shadow: 0 6px 24px rgba(20,43,74,0.08); }}
+.st-key-topnav [data-testid="stHorizontalBlock"] {{ flex-wrap: nowrap; }}
 .st-key-topnav [data-testid="stPageLink"] a {{ justify-content: center; border-radius: 999px; padding: 8px 10px; }}
 .st-key-topnav [data-testid="stPageLink"] a:hover {{ background: {SURFACE}; }}
 .st-key-topnav [data-testid="stPageLink"] a span, .st-key-topnav [data-testid="stPageLink"] a p {{ color: {NAVY}; font-weight: 600; font-size: 0.875rem; white-space: nowrap; }}
@@ -172,7 +174,9 @@ header[data-testid="stHeader"] {{ background: transparent; height: 2.5rem; }}
 .st-key-leftnav .vs-side-divider {{ border-top: 1px solid rgba(255,255,255,0.14); margin: 12px 0 14px 0; }}
 .st-key-leftnav .vs-side-note {{ font-size: 0.75rem; color: #BFD3EE; line-height: 1.5; padding: 0 4px; }}
 .st-key-leftnav .vs-side-note strong {{ color: #FFFFFF; }}
-.st-key-pagebar, .st-key-topnav {{ animation: vs-fade-in 0.3s ease-out; }}
+.st-key-pagebar {{ animation: vs-fade-in 0.3s ease-out; }}
+@keyframes vs-drop-in {{ from {{ opacity: 0; transform: translateY(-12px); }} to {{ opacity: 1; transform: none; }} }}
+.st-key-topnav {{ animation: vs-drop-in 0.5s cubic-bezier(.2,.8,.2,1); }}
 @media (max-width: 900px) {{
   [data-testid="stColumn"]:has(.st-key-leftnav), [data-testid="stColumn"]:has(.st-key-pagebar) {{ flex: 1 1 100% !important; min-width: 0 !important; width: 100% !important; }}
   [data-testid="stHorizontalBlock"]:has(> [data-testid="stColumn"] .st-key-leftnav) {{ flex-wrap: wrap; }}
@@ -206,18 +210,57 @@ header[data-testid="stHeader"] {{ height: 1.5rem; }}
 [data-testid="stMarkdownContainer"] .vs-hero .eyebrow .mark svg {{ width: 28px; height: 28px; display: block; }}
 [data-testid="stMarkdownContainer"] .vs-hero h1.title {{ font-size: 2.4rem; font-weight: 700; letter-spacing: -0.02em; color: {NAVY}; margin: 0 0 12px 0; padding: 0; }}
 [data-testid="stMarkdownContainer"] .vs-hero p.sub {{ font-size: 1.05rem; line-height: 1.6; color: {TEXT}; margin: 0 0 20px 0; }}
-[data-testid="stMarkdownContainer"] .vs-hero .facts {{ display: grid; grid-template-columns: repeat(auto-fit, minmax(170px, 1fr)); gap: 8px 16px;
-   font-size: 0.875rem; color: {MUTED}; max-width: 900px; }}
+[data-testid="stMarkdownContainer"] .vs-hero .facts {{ display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 8px 16px;
+   font-size: 0.875rem; color: {MUTED}; max-width: 880px; line-height: 1.4; }}
+[data-testid="stMarkdownContainer"] .vs-hero .facts span {{ padding-left: 10px; border-left: 2px solid #D6E2F5; }}
 [data-testid="stMarkdownContainer"] .vs-hero .facts strong {{ color: {NAVY}; font-variant-numeric: tabular-nums; }}
 [data-testid="stMarkdownContainer"] .vs-tile {{ background: {SURFACE}; border: 1px solid {BORDER}; border-radius: 8px; padding: 16px; min-height: 256px; }}
 [data-testid="stMarkdownContainer"] .vs-tile .ic {{ margin-bottom: 8px; }}
 [data-testid="stMarkdownContainer"] .vs-tile .ic svg {{ display: block; }}
 [data-testid="stMarkdownContainer"] .vs-tile .h {{ font-size: 1rem; font-weight: 600; color: {NAVY}; margin-bottom: 6px; line-height: 1.3; }}
 [data-testid="stMarkdownContainer"] .vs-tile .b {{ font-size: 0.85rem; color: {MUTED}; line-height: 1.5; }}
+/* ---- landing motion: water ---- */
+@keyframes vs-wave {{ from {{ transform: translateX(0); }} to {{ transform: translateX(-1200px); }} }}
+@keyframes vs-ripple {{ 0% {{ transform: scale(0.2); opacity: 0.55; }} 100% {{ transform: scale(1); opacity: 0; }} }}
+@keyframes vs-bob {{ 0%, 100% {{ transform: translateY(0); }} 50% {{ transform: translateY(-4px); }} }}
+@keyframes vs-reveal {{ from {{ opacity: 0; transform: translateY(14px); }} to {{ opacity: 1; transform: none; }} }}
+[data-testid="stMarkdownContainer"] .vs-hero {{ background: {SURFACE} radial-gradient(circle at 88% 18%, rgba(37,99,235,0.10), transparent 42%); }}
+[data-testid="stMarkdownContainer"] .vs-hero .vs-waves path {{ will-change: transform; }}
+[data-testid="stMarkdownContainer"] .vs-hero .vs-waves .w1 {{ animation: vs-wave 22s linear infinite; }}
+[data-testid="stMarkdownContainer"] .vs-hero .vs-waves .w2 {{ animation: vs-wave 15s linear infinite; }}
+[data-testid="stMarkdownContainer"] .vs-hero .vs-waves .w3 {{ animation: vs-wave 30s linear infinite reverse; }}
+[data-testid="stMarkdownContainer"] .vs-hero .vs-ripple {{ position: absolute; right: 9%; top: 26%; width: 260px; height: 260px; margin: -130px -130px 0 0;
+   border-radius: 50%; border: 1.5px solid rgba(37,99,235,0.45); pointer-events: none; animation: vs-ripple 4.5s ease-out infinite; }}
+[data-testid="stMarkdownContainer"] .vs-hero .vs-ripple.r2 {{ animation-delay: 1.5s; border-color: rgba(13,148,136,0.45); }}
+[data-testid="stMarkdownContainer"] .vs-hero .vs-ripple.r3 {{ animation-delay: 3s; border-color: rgba(20,43,74,0.35); }}
+[data-testid="stMarkdownContainer"] .vs-hero .eyebrow .mark svg {{ animation: vs-bob 3.2s ease-in-out infinite; }}
+[data-testid="stMarkdownContainer"] .reveal {{ animation: vs-reveal 0.6s cubic-bezier(.2,.8,.2,1) both; }}
+[data-testid="stMarkdownContainer"] .reveal.r0 {{ animation-delay: 0.05s; }}
+[data-testid="stMarkdownContainer"] .reveal.r1 {{ animation-delay: 0.15s; }}
+[data-testid="stMarkdownContainer"] .reveal.r2 {{ animation-delay: 0.28s; }}
+[data-testid="stMarkdownContainer"] .reveal.r3 {{ animation-delay: 0.4s; }}
+[data-testid="stColumn"]:nth-child(1) .vs-tile.reveal {{ animation-delay: 0.45s; }}
+[data-testid="stColumn"]:nth-child(2) .vs-tile.reveal {{ animation-delay: 0.55s; }}
+[data-testid="stColumn"]:nth-child(3) .vs-tile.reveal {{ animation-delay: 0.65s; }}
+[data-testid="stColumn"]:nth-child(4) .vs-tile.reveal {{ animation-delay: 0.75s; }}
+[data-testid="stMarkdownContainer"] .vs-tile {{ transition: transform 0.2s ease, box-shadow 0.2s ease; }}
+[data-testid="stMarkdownContainer"] .vs-tile:hover {{ transform: translateY(-3px); box-shadow: 0 10px 24px rgba(20,43,74,0.08); }}
+@media (prefers-reduced-motion: reduce) {{
+  [data-testid="stMarkdownContainer"] .vs-hero .vs-waves path, [data-testid="stMarkdownContainer"] .vs-hero .vs-ripple,
+  [data-testid="stMarkdownContainer"] .vs-hero .eyebrow .mark svg, [data-testid="stMarkdownContainer"] .reveal, .st-key-topnav,
+  .st-key-leftnav, .st-key-pagebar {{ animation: none !important; }}
+}}
 @media (max-width: 700px) {{
   [data-testid="stMarkdownContainer"] .vs-hero {{ padding: 24px 20px 64px 20px; }}
   [data-testid="stMarkdownContainer"] .vs-hero h1.title {{ font-size: 1.8rem; }}
-  .st-key-topnav {{ border-radius: 12px; }}
+  [data-testid="stMarkdownContainer"] .vs-hero .vs-ripple {{ display: none; }}
+  .st-key-topnav {{ position: fixed; left: 10px; right: 10px; width: auto; margin-left: 0; border-radius: 999px; padding: 4px 6px; }}
+  .st-key-topnav [data-testid="stHorizontalBlock"] {{ flex-wrap: nowrap; gap: 4px; }}
+  .st-key-topnav [data-testid="stColumn"] {{ min-width: 0 !important; }}
+  .st-key-topnav [data-testid="stPageLink"] a {{ padding: 6px 4px; }}
+  .st-key-topnav [data-testid="stPageLink"] a [data-testid="stIconMaterial"] {{ display: none; }}
+  .st-key-topnav [data-testid="stPageLink"] a span, .st-key-topnav [data-testid="stPageLink"] a p {{ font-size: 0.8rem; }}
+  [data-testid="stMarkdownContainer"] .vs-hero .facts {{ grid-template-columns: repeat(2, minmax(0, 1fr)); }}
 }}
 </style>
 """

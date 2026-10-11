@@ -12,10 +12,11 @@ top = m.ghats[0]
 
 WAVES = (
     '<svg class="vs-waves" viewBox="0 0 1200 140" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">'
-    '<path d="M0 70 C 150 20, 300 120, 450 70 S 750 20, 900 70 S 1150 120, 1200 70 V140 H0 Z" fill="#2563EB" fill-opacity="0.10"/>'
-    '<path d="M0 90 C 200 40, 400 140, 600 90 S 1000 40, 1200 90 V140 H0 Z" fill="#0D9488" fill-opacity="0.12"/>'
-    '<path d="M0 110 C 250 70, 450 150, 700 110 S 1050 70, 1200 110 V140 H0 Z" fill="#142B4A" fill-opacity="0.10"/>'
+    '<path class="w1" d="M0 70 C 150 20, 300 120, 450 70 S 750 20, 900 70 S 1150 120, 1200 70 S 1500 20, 1650 70 S 1950 120, 2100 70 S 2350 20, 2400 70 V140 H0 Z" fill="#2563EB" fill-opacity="0.10"/>'
+    '<path class="w2" d="M0 90 C 200 40, 400 140, 600 90 S 1000 40, 1200 90 S 1600 140, 1800 90 S 2200 40, 2400 90 V140 H0 Z" fill="#0D9488" fill-opacity="0.12"/>'
+    '<path class="w3" d="M0 110 C 250 70, 450 150, 700 110 S 1050 70, 1200 110 S 1450 150, 1700 110 S 2050 70, 2400 110 V140 H0 Z" fill="#142B4A" fill-opacity="0.10"/>'
     "</svg>"
+    '<span class="vs-ripple r1"></span><span class="vs-ripple r2"></span><span class="vs-ripple r3"></span>'
 )
 DROP = ('<svg width="40" height="40" viewBox="0 0 34 34" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">'
         '<path d="M17 5c-4.4 6-7.6 10.3-7.6 14.2a7.6 7.6 0 0 0 15.2 0C24.6 15.3 21.4 11 17 5z" fill="{fill}" fill-opacity="{op}"/>'
@@ -24,12 +25,13 @@ DROP = ('<svg width="40" height="40" viewBox="0 0 34 34" fill="none" xmlns="http
 
 st.markdown(
     f'<div class="vs-hero">{WAVES}<div class="in">'
-    f'<div class="eyebrow"><span class="mark">{T.MARK_SVG}</span>{T.DESCRIPTOR}</div>'
-    f'<h1 class="title">{T.PRODUCT}</h1>'
-    "<p class=\"sub\">Turns three years of buried immersion-ghat water tests into a ranked, traceable follow-up list "
+    f'<div class="eyebrow reveal r0"><span class="mark">{T.MARK_SVG}</span>{T.DESCRIPTOR}</div>'
+    f'<h1 class="title reveal r1">{T.PRODUCT}</h1>'
+    "<p class=\"sub reveal r2\">Turns three years of buried immersion-ghat water tests into a ranked, traceable follow-up list "
     "for the municipal officer: which ghats need attention first, why, how complete the evidence is, and what to do next.</p>"
-    f'<div class="facts"><span><strong>{len(m.sites)}</strong> Bhopal ghats</span><span><strong>{m.validation["csv_rows"]:,}</strong> readings, '
-    f'{m.period}</span><span><strong>{exc} of {num}</strong> DO, BOD and pH readings outside Class B limits</span>'
+    f'<div class="facts reveal r3"><span><strong>{len(m.sites)}</strong> Bhopal ghats</span>'
+    f'<span><strong>{m.validation["csv_rows"]:,}</strong> readings, {m.period}</span>'
+    f'<span><strong>{exc} of {num}</strong> readings outside Class B limits</span>'
     f'<span><strong>{len(m.tier1)}</strong> ghats in priority tier 1</span></div>'
     "</div></div>",
     unsafe_allow_html=True,
@@ -59,7 +61,7 @@ tiles = [
 cols = st.columns(4, gap="medium")
 for col, (icon, head, body, target, label) in zip(cols, tiles):
     with col:
-        st.markdown(f'<div class="vs-tile"><div class="ic">{icon}</div><div class="h">{head}</div><div class="b">{body}</div></div>',
+        st.markdown(f'<div class="vs-tile reveal"><div class="ic">{icon}</div><div class="h">{head}</div><div class="b">{body}</div></div>',
                     unsafe_allow_html=True)
         st.page_link(target, label=label, icon=":material/arrow_forward:")
 

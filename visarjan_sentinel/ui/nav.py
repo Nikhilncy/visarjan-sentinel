@@ -108,7 +108,7 @@ def active_css(current_slug: str, on_home: bool) -> str:
     if on_home:
         css += """
 <style>
-.block-container { max-width: 1120px; padding-top: 2rem; }
+.block-container { max-width: 1120px; padding-top: 5.5rem; }
 </style>"""
     else:
         css += """
